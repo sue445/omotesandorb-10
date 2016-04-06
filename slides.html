@@ -1,0 +1,478 @@
+<section>
+
+<h1>itamaeプラグインを<br>本気でCIした #omotesandorb</h1>
+
+<p>sue445</p>
+
+<p>2016/04/07 表参道.rb #10</p>
+
+</section>
+<section>
+
+<h2>自己紹介 <a href="https://twitter.com/sue445"><img src="images/sue445.png" alt="sue445"></a>
+</h2>
+
+<ul>
+<li>Go Sueyoshi a.k.a <a href="https://twitter.com/sue445">sue445</a>
+</li>
+<li>Ruby歴：5年くらい</li>
+<li>golang歴：半年くらい</li>
+<li>Go歴：33年 -&gt; 34年（34歳） (NEW!)
+
+<ul>
+<li>4/7が誕生日 <img class="emoji" alt=":birthday:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f382.png"><img class="emoji" alt=":birthday:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f382.png">
+</li>
+<li>wishlist <a href="http://www.amazon.co.jp/registry/wishlist/3HH1FL88AQAG8/">http://www.amazon.co.jp/registry/wishlist/3HH1FL88AQAG8/</a></li>
+</ul>
+</li>
+</ul>
+
+</section>
+<section>
+
+<h2>自己紹介</h2>
+
+<ul>
+<li>
+<a href="http://www.drecom.co.jp/">株式会社ドリコム</a> 所属</li>
+<li>サーバサイドを浅く広く
+
+<ul>
+<li>最近のお仕事はプロビジョニング周り</li>
+<li>itamae, Serverspec, vagrant（ギリギリRuby）</li>
+</ul>
+</li>
+<li>TDDおじさん</li>
+<li>プリキュアおじさん</li>
+</ul>
+
+</section>
+<section>
+
+<h2>代表作</h2>
+
+<p><a href="https://rubygems.org/profiles/sue445">https://rubygems.org/profiles/sue445</a></p>
+
+<p><img src="images/rubygems.png" alt="rubygems"></p>
+
+</section>
+<section>
+
+<h2>代表作</h2>
+
+<p><a href="https://github.com/sue445">https://github.com/sue445</a></p>
+
+<p><img src="images/github.png" alt="github"></p>
+
+</section>
+<section>
+
+<h2>近況：最近送ったPullRequest</h2>
+
+<ul>
+<li>vagrant-awsプラグイン（のスポットインスタンス対応版のフォーク）
+
+<ul>
+<li><a href="https://github.com/KariusDx/vagrant-aws/pull/2">https://github.com/KariusDx/vagrant-aws/pull/2</a></li>
+<li>スポットインスタンス作成時にIAMロールが適用されなかったので適用されるようにした</li>
+</ul>
+</li>
+<li>vagrant-cloudstackプラグイン（1つ目）
+
+<ul>
+<li><a href="https://github.com/schubergphilis/vagrant-cloudstack/pull/148">https://github.com/schubergphilis/vagrant-cloudstack/pull/148</a></li>
+<li>複数のnetwork idを渡せるようにした</li>
+</ul>
+</li>
+<li>vagrant-cloudstackプラグイン（2つ目）
+
+<ul>
+<li><a href="https://github.com/schubergphilis/vagrant-cloudstack/pull/149">https://github.com/schubergphilis/vagrant-cloudstack/pull/149</a></li>
+<li>複数NICがある場合にeth0以外でsshしたかった</li>
+</ul>
+</li>
+</ul>
+
+</section>
+<section>
+
+<h2>今期の嫁：まだ未定</h2>
+
+<p><img src="images/maho_girls.png" alt=""></p>
+
+<p><a href="http://www.toei-anim.co.jp/tv/precure/">http://www.toei-anim.co.jp/tv/precure/</a></p>
+
+</section>
+<section>
+
+<h2>本妻：キュアピース</h2>
+
+<p><img src="images/cure_engineer_peace.jpg" alt="キュアエンジニア"></p>
+
+</section>
+<section>
+
+<h2>今期のプリキュアはRubyがテーマ</h2>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pFHtPqx-lBU" frameborder="0" allowfullscreen></iframe>
+
+<p><a href="https://www.youtube.com/watch?v=pFHtPqx-lBU">https://www.youtube.com/watch?v=pFHtPqx-lBU</a></p>
+
+</section>
+<section>
+
+<h2>Agenda</h2>
+
+<ul>
+<li>itamaeについて</li>
+<li>itamaeプラグインについて</li>
+<li>itamaeプラグインのテスト事情</li>
+<li>itamaeプラグインをテストする</li>
+<li>ビルドの並列実行</li>
+<li>小ネタ</li>
+</ul>
+
+</section>
+<section>
+
+<h2>三行まとめ</h2>
+
+<ul>
+<li>Vagrant</li>
+<li>Wercker</li>
+<li>DigitalOcean</li>
+</ul>
+
+</section>
+<section>
+
+<h2>itamaeについて</h2>
+
+<ul>
+<li><a href="https://github.com/itamae-kitchen/itamae">https://github.com/itamae-kitchen/itamae</a></li>
+<li>Ruby製のプロビジョニングツール(ChefとかAnsibleみたいなやつ)</li>
+</ul>
+
+</section>
+<section>
+
+<h2>itamaeプラグインについて</h2>
+
+<p>レシピ（ミドルウェアのインストール手順など）をgemにしてRubygems.orgで公開することができる</p>
+
+<h3>Gemfile</h3>
+<pre><code class="ruby">gem "itamae-plugin-recipe-git_now"
+</code></pre>
+<h3>recipe.rb</h3>
+<pre><code class="ruby">include_recipe "git_now"
+</code></pre>
+<p><a href="https://github.com/iwata/git-now">git-now</a> がインストールされる</p>
+
+</section>
+<section>
+
+<h2>sue445製itamaeプラグイン</h2>
+
+<ul>
+<li><a href="https://github.com/sue445/itamae-plugin-resource-encrypted_remote_file">https://github.com/sue445/itamae-plugin-resource-encrypted_remote_file</a></li>
+<li><a href="https://github.com/sue445/itamae-plugin-recipe-tmux">https://github.com/sue445/itamae-plugin-recipe-tmux</a></li>
+<li><a href="https://github.com/sue445/itamae-plugin-recipe-tig">https://github.com/sue445/itamae-plugin-recipe-tig</a></li>
+<li><a href="https://github.com/sue445/itamae-plugin-recipe-git_now">https://github.com/sue445/itamae-plugin-recipe-git_now</a></li>
+<li><a href="https://github.com/sue445/itamae-plugin-recipe-omori_gohan">https://github.com/sue445/itamae-plugin-recipe-omori_gohan</a></li>
+</ul>
+
+</section>
+<section>
+
+<h2>itamaeプラグインのテスト事情</h2>
+
+<p><a href="https://rubygems.org/search?utf8=%E2%9C%93&amp;query=itamae-plugin">https://rubygems.org/search?utf8=%E2%9C%93&amp;query=itamae-plugin</a></p>
+
+<ul>
+<li>47個中、テストを書いてるgemは18個
+
+<ul>
+<li>
+<code>bundle gem</code> 直後の <code>expect(Itamae::Plugin::Recipe::Hoge::VERSION).not_to be nil</code> しかないやつはノーカン</li>
+</ul>
+</li>
+<li>CIしてるgemは5個（全部自分のやつｗ）
+
+<ul>
+<li>
+<code>bundle gem</code> 直後の .travis.yml しかないやつはノーカン</li>
+</ul>
+</li>
+<li>itamaeプラグインのCIの知見を広めたいのが今回の主旨</li>
+</ul>
+
+</section>
+<section>
+
+<h2>CIされてることのメリット</h2>
+
+<ul>
+<li>複数OSテストしたい時に動作確認が楽（開発者視点）</li>
+<li>リポジトリのトップにTravis CIとかのバッジが貼ってあれば安心感がある（利用者視点）
+
+<ul>
+<li>常にビルドされているという安心感</li>
+<li>PR送った時にビルドの結果が出る安心感</li>
+</ul>
+</li>
+</ul>
+
+<p><img src="images/wercker_badge.png" alt="wercker_badge"> <img src="images/travis_badge.png" alt="travis_badge"></p>
+
+</section>
+<section>
+
+<h2>itamaeプラグインをテストする手順</h2>
+
+<ol>
+<li>ローカルでVagrant + VirtualBox環境構築</li>
+<li>自分自身を適用するレシピと、それに対するテストを書く</li>
+<li>VirtualBox内でitamaeのレシピ＆Serverspec実行</li>
+<li>CIでレシピ＆Serverspec実行</li>
+</ol>
+
+<p>LTだと尺が足らないので駆け足でいきます。（詳しい手順は後日ブログに書きます）</p>
+
+</section>
+<section>
+
+<h3>1. ローカルでVagrant + VirtualBox環境構築</h3>
+
+<ul>
+<li><a href="https://www.vagrantup.com/downloads.html">https://www.vagrantup.com/downloads.html</a></li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a></li>
+</ul>
+
+<p>からバイナリをインストール</p>
+
+</section>
+<section>
+
+<h3>2. 自分自身を適用するレシピと、それに対するテストを書く</h3>
+
+<p><a href="https://github.com/sue445/itamae-plugin-recipe-git_now/blob/v0.1.1/recipes/install.rb">install.rb</a></p>
+<pre><code class="ruby">include_recipe "git_now"
+</code></pre>
+<p><a href="https://github.com/sue445/itamae-plugin-recipe-git_now/blob/v0.1.1/spec/git_now_spec.rb">git_now_spec.rb</a></p>
+<pre><code class="ruby">describe file("#{node[:git_now][:prefix]}/bin/git-now") do
+  it { should be_file }
+  it { should be_executable }
+end
+</code></pre>
+<p><a href="http://serverspec.org/">Serrverspec</a> だとインフラの構成をrspecでテストすることができる</p>
+
+</section>
+<section>
+
+<h3>3. VirtualBox内でitamaeのレシピ＆Serverspec実行</h3>
+
+<p>itamae実行</p>
+
+<p><img src="images/itamae.png" alt="itamae"></p>
+
+</section>
+<section>
+
+<h3>3. VirtualBox内でitamaeのレシピ＆Serverspec実行</h3>
+
+<p>Serverspec実行</p>
+
+<p><img src="images/spec.png" alt="spec"></p>
+
+</section>
+<section>
+
+<h3>4. CIでレシピ＆Serverspec実行</h3>
+
+<ul>
+<li>DigitalOcean</li>
+<li>Wercker</li>
+</ul>
+
+<p>を使う方法について紹介</p>
+
+</section>
+<section>
+
+<h4><a href="https://www.digitalocean.com/">DigitalOcean</a></h4>
+
+<ul>
+<li>海外の格安VPS</li>
+<li>最低プランなら1時間で$0.007から使える
+
+<ul>
+<li>1ドル113円なら0.79円</li>
+<li>$10のクーポンコードもあるので1428時間は無料で使える</li>
+<li><a href="https://m.do.co/c/7978f6d6167e">https://m.do.co/c/7978f6d6167e</a> (ﾁﾗﾁﾗｯ</li>
+</ul>
+</li>
+<li>全部SSDなので速い</li>
+<li>ビルドする時だけインスタンスを立ち上げれば費用を抑えることができる</li>
+</ul>
+
+</section>
+<section>
+
+<h4><a href="http://wercker.com/">Wercker</a></h4>
+
+<ul>
+<li>CIサービス(<a href="https://travis-ci.org/">Travis CI</a>や<a href="https://circleci.com/">Circle CI</a>的なやつ)</li>
+<li>「ワーカー」と読むらしい</li>
+<li>box（実行環境）やstep（実行コマンド）がプラグインとして提供されているのが特徴
+
+<ul>
+<li>自分で作ったプラグインを <a href="https://app.wercker.com/#explore">Registory</a> で自由に公開できる</li>
+</ul>
+</li>
+</ul>
+
+</section>
+<section>
+
+<p><a href="https://github.com/sue445/wercker-box-rvm-vagrant-digitalocean">https://github.com/sue445/wercker-box-rvm-vagrant-digitalocean</a></p>
+
+<ul>
+<li>
+<a href="https://github.com/masutaka/wercker-box-rvm-vagrant-aws">wercker-box-rvm-vagrant-aws</a> をforkしてrvmとvagrantとvagrant-digitaloceanプラグインをインストール済のboxを作った</li>
+</ul>
+
+</section>
+<section>
+
+<p><a href="https://github.com/sue445/itamae-plugin-recipe-git_now/blob/v0.1.1/wercker.yml#L6">wercker.yml</a></p>
+<pre><code class="yaml">box: sue445/rvm-vagrant-digitalocean@1.0.0
+</code></pre>
+</section>
+<section>
+
+<h3>CI設定</h3>
+
+<p><a href="https://github.com/sue445/itamae-plugin-recipe-git_now/blob/575ef249811ceaeba5d80ecde830c30cea46395c/wercker.yml#L63-L69">wercker.yml</a></p>
+<pre><code class="yaml">build:
+    steps:
+        - script:
+            name: test centos70
+            code: ./ci/build.sh centos70
+
+        - script:
+            name: test debian8
+            code: ./ci/build.sh debian8
+</code></pre>
+<p><a href="https://github.com/sue445/itamae-plugin-recipe-git_now/blob/575ef249811ceaeba5d80ecde830c30cea46395c/ci/build.sh">build.sh</a></p>
+<pre><code class="sh">#!/bin/bash -xe
+
+readonly HOST=$1
+
+vagrant up $HOST --provider=digital_ocean
+bundle exec rake itamae:$HOST
+bundle exec rake spec:$HOST
+vagrant destroy -f $HOST
+</code></pre>
+</section>
+<section>
+
+<h2>ビルドの並列実行</h2>
+
+<p>直列実行だと遅い（2つ合わせて5分くらいかかる）ので並列実行できるようにした</p>
+
+</section>
+<section>
+
+<h3><a href="https://github.com/sue445/paraduct">Paraduct</a></h3>
+
+<ul>
+<li>Paraduct (parallel + parameterize + product)</li>
+<li>.travis.ymlみたいな感じにいい感じにマトリックステストをするためのgem</li>
+<li>2年前に作ったgemなんだけどいろいろ書き直した
+
+<ul>
+<li>v0.0.3 -&gt; v1.0.0 <img class="emoji" alt=":muscle:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4aa.png">
+</li>
+</ul>
+</li>
+</ul>
+
+</section>
+<section>
+
+<p><a href="https://github.com/sue445/itamae-plugin-recipe-git_now/blob/89efca00a3c9b2f66e69fc95c48c02b55bed4014/.paraduct.yml">.paraduct.yml</a></p>
+<pre><code class="yaml">script: |-
+  ./ci/build.sh ${HOST}
+after_script: |-
+  vagrant destroy -f $HOST
+variables:
+  HOST:
+    - debian8
+    - centos70
+max_threads: 4
+</code></pre>
+<ul>
+<li>この例だと <code>./ci/build.sh debian8</code> と <code>./ci/build.sh centos70</code> が並列に実行される</li>
+<li>
+<code>after_script</code> はビルドが失敗時しても必ず実行されるので確実にVMをdestroyしてくれる</li>
+</ul>
+
+</section>
+<section>
+
+<p>capistranoみたいにホストごとに色がつくのが特徴</p>
+
+<p><img src="images/paraduct.png" alt="paraduct"></p>
+
+<p><a href="https://app.wercker.com/#buildstep/56f46fa951d1ad950a01ad71">https://app.wercker.com/#buildstep/56f46fa951d1ad950a01ad71</a></p>
+
+</section>
+<section>
+
+<h2>小ネタ</h2>
+
+<ul>
+<li>DigitalOceanのregionは当たり外れがある（気がする）
+
+<ul>
+<li>nyc1だとたまにVM起動後にsshが通らなくて固まることがあるけど、nyc3に変えたら起こらなくなった</li>
+<li>ハマったら他のregionに変えてみるとよさげ</li>
+</ul>
+</li>
+<li>不慮の事故でVMが残り続けるのを防ぐために古いVMを削除するスクリプトをheroku schedulerで動かしてる
+
+<ul>
+<li><a href="https://github.com/itamae-kitchen/itamae/blob/master/ci/destroy_old_droplets.rb">https://github.com/itamae-kitchen/itamae/blob/master/ci/destroy_old_droplets.rb</a></li>
+</ul>
+</li>
+</ul>
+
+</section>
+<section>
+
+<h2>参考文献</h2>
+
+<ul>
+<li>オライリーのServerspec本
+
+<ul>
+<li><a href="http://www.oreilly.co.jp/books/9784873117096/">http://www.oreilly.co.jp/books/9784873117096/</a></li>
+</ul>
+</li>
+<li>itamaeやServerspecの <code>wercker.yml</code> や <code>Vagrantfile</code> を熟読した
+
+<ul>
+<li><a href="https://github.com/itamae-kitchen/itamae">https://github.com/itamae-kitchen/itamae</a></li>
+<li><a href="https://github.com/serverspec/serverspec-integration-test">https://github.com/serverspec/serverspec-integration-test</a></li>
+</ul>
+</li>
+</ul>
+
+</section>
+<section>
+
+<h2>重要なことなので最後にもう一度</h2>
+
+<p><a href="http://www.amazon.co.jp/registry/wishlist/3HH1FL88AQAG8/">http://www.amazon.co.jp/registry/wishlist/3HH1FL88AQAG8/</a></p>
+
+</section>
