@@ -6,7 +6,7 @@ sue445
 ---
 ## 自己紹介 [![sue445](images/sue445.png)](https://twitter.com/sue445)
 
-* Go Sueyoshi a.k.a [sue445](https://twitter.com/sue445)
+* [sue445](https://twitter.com/sue445)
 * Ruby歴：5年くらい
 * golang歴：半年くらい
 * Go歴：33年 -> 34年（34歳） (NEW!)
