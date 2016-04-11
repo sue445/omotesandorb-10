@@ -116,7 +116,8 @@ https://rubygems.org/search?utf8=%E2%9C%93&query=itamae-plugin
 
 * 47個中、テストを書いてるgemは18個
   * `bundle gem` 直後の `expect(Itamae::Plugin::Recipe::Hoge::VERSION).not_to be nil` しかないやつはノーカン
-* CIしてるgemは5個（全部自分のやつｗ）
+* ~~CIしてるgemは5個（全部自分のやつｗ）~~
+  * 自分以外でCIしてるのが [1つだけ](https://github.com/gongo/itamae-plugin-resource-firewalld) あったので計6つ（ユニットテスト）
   * `bundle gem` 直後の .travis.yml しかないやつはノーカン
 * itamaeプラグインのCIの知見を広めたいのが今回の主旨
 
